@@ -1,6 +1,8 @@
 import * as actions from './actions'
 import * as actionTypes from './actionTypes'
 import * as reducerHelpers from './helpers'
+import reducer, { STORE_DOMAIN } from './reducer'
+import * as selectors from './selectors'
 
 const reduxMiddleware = dispatch => next => async (context, response, error) => {
   const { name, args } = context
@@ -19,5 +21,8 @@ export {
   actions,
   actionTypes,
   reducerHelpers,
-  reduxMiddleware
+  reduxMiddleware,
+  reducer,
+  selectors,
+  STORE_DOMAIN
 }
