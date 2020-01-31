@@ -2,11 +2,16 @@ import * as actions from './actions'
 import * as actionTypes from './actionTypes'
 import * as reducerHelpers from './helpers'
 
-const reduxPlugin = dispatch => (name, ...args) => {
+const reduxMiddleware = dispatch => next => async (context, response, error) => {
+  const { name, args } = context
   dispatch(actions.start({ name, args }))
-  return {
-    onError: e => dispatch(actions.error({ name, args, error: e })),
-    onComplete: response => dispatch(actions.complete({ name, args, response }))
+  try {
+    const r = await next(context, response, error)
+    dispatch(actions.complete({ name, args, response }))
+    return r
+  } catch (e) {
+    dispatch(actions.error({ name, args, error: e }))
+    throw e
   }
 }
 
@@ -14,5 +19,5 @@ export {
   actions,
   actionTypes,
   reducerHelpers,
-  reduxPlugin
+  reduxMiddleware
 }
