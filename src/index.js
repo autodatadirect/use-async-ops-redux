@@ -5,14 +5,14 @@ import reducer, { STORE_DOMAIN } from './reducer'
 import * as selectors from './selectors'
 
 const reduxMiddleware = dispatch => next => async (context, response, error) => {
-  const { name, args } = context
-  dispatch(actions.start({ name, args }))
+  const { name, args, options } = context
+  dispatch(actions.start({ name, args, options }))
   try {
     const r = await next(context, response, error)
-    dispatch(actions.complete({ name, args, response }))
+    dispatch(actions.complete({ name, args, options, response }))
     return r
   } catch (e) {
-    dispatch(actions.error({ name, args, error: e }))
+    dispatch(actions.error({ name, args, options, error: e }))
     throw e
   }
 }
