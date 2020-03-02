@@ -9,7 +9,7 @@ const initialEntry = {
   loading: false
 }
 
-export const getReducerkey = ({ name, channel }) => name + (channel ? '__' + channel : '')
+export const getReducerkey = ({ name, options: { channel } = {} }) => name + (channel ? '__' + channel : '')
 
 const operation = (state, action) => ({
   ...state,
