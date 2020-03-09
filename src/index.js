@@ -9,7 +9,7 @@ const reduxMiddleware = dispatch => next => async (context, response, error) => 
   dispatch(actions.start({ name, args, options }))
   try {
     const r = await next(context, response, error)
-    dispatch(actions.complete({ name, args, options, response }))
+    dispatch(actions.complete({ name, args, options, response: r }))
     return r
   } catch (e) {
     dispatch(actions.error({ name, args, options, error: e }))
